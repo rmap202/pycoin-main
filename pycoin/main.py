@@ -1,5 +1,15 @@
-from pycoin.src.net.server import *
+from src.entities.blockchain import Blockchain
+from src import mine
 
-endpoint = TCP4ServerEndpoint(reactor, 5999)
-endpoint.listen(MyFactory())
+from src.net.server import *
 
+
+# Build blockchain from genesis
+
+b = Blockchain()
+
+res = mine()
+
+# Connect to the network
+
+# Start Application

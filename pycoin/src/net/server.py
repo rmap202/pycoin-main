@@ -1,17 +1,20 @@
-from twisted.internet.endpoint import TCP4ServerEndpoint
-from twisted.internet.protocol import Protocol, Factory
-from twisted.internet import reactor
+import socket, sys
 
-class MyProtocol(Protocol):
-    def __init__(self, factory):
-        self.factory = factory
-        self.nodeid = self.factory.nodeid
+HOST = "127.0.0.1"
+PORT = 12345
 
-class MyFactory(Factory):
-    def startFactory(self):
-        self.peers = {}
-        self.nodeid = generate_nodeid()
-    
-    def buildProtocol(self, addr):
-        return NCProtocol(self)
+# AF_INET is the Internet address family for IPv4. SOCK_STREAM is the socket type for
+# TCP, the protocol that will be used to transport messages in the network.
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen()
+    conn, addr = s.accept()
+    with conn:
+        print(f"Connected by {addr}")
+        while True:
+            data = conn.recv(1024)
+            if not data:
+                break
+            conn.sendall(data)
 
+s.bind((HOST, PORT))
