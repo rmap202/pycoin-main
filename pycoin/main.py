@@ -6,9 +6,11 @@ from src.net.server import *
 
 # Build blockchain from genesis
 
+# Create an instance of the blockchain
 b = Blockchain()
 
-res = mine()
+# Mine the genesis block
+gensis = mine()
 
 # Connect to the network
 
